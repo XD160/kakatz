@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שאלון לתרגול</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #d1d5db;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .topic-btn {
+            background-color: #ffffff;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .topic-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background: #f9fafb;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .option-label input {
+            margin-left: 10px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .stats {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- מסך כניסה -->
+        <div id="login-screen">
+            <h2>כניסה למערכת</h2>
+            <p style="text-align: center; font-size: 14px; color: #6b7280;">הכנס את קוד הגישה</p>
+            <input type="password" id="passcode" placeholder="קוד" maxlength="4">
+            <button id="login-btn">הכנס</button>
+            <p id="login-error" style="color: var(--error-color); text-align: center; font-size: 14px;" class="hidden">קוד שגוי, נסה שוב</p>
+        </div>
+
+        <!-- מסך בחירת נושאים -->
+        <div id="topics-screen" class="hidden">
+            <h2>בחר נושא לתרגול</h2>
+            <div id="topics-list">
+                <!-- כאן יופיעו הנושאים דינמית -->
+            </div>
+        </div>
+
+        <!-- מסך שאלון -->
+        <div id="quiz-screen" class="hidden">
+            <div class="stats" id="queue-stats">שאלות בתור: 0</div>
+            <h3 id="question-title">כותרת השאלה</h3>
+            <p id="question-text" style="font-weight: 500;"></p>
+            <div id="options-container"></div>
+            <button id="submit-btn">בדוק תשובה</button>
+            <button id="next-btn" class="hidden">השאלה הבאה</button>
+            <div id="feedback" class="feedback hidden"></div>
+        </div>
+
+        <!-- מסך סיום -->
+        <div id="finish-screen" class="hidden">
+            <h2>כל הכבוד! </h2>
+            <p style="text-align: center;">סיימת את כל השאלות בהצלחה.</p>
+            <button id="back-btn">בחר נושא אחר</button>
+        </div>
+    </div>
+
+    <script>
+        // מאגר השאלות והנושאים - לכאן תוכל להוסיף עוד שאלות ונושאים בקלות
+        const database = {
+            "המנון": [
+                {
+                    id: 1,
+                    text: "באיזה קונגרס נקבעה ״התקווה״ בתור ההמנון הרשמי של התנועה הציונית?",
+                    type: "single",
+                    options: ["18", "15", "6", "4"],
+                    answer: [0] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                },
+                {
+                    id: 2,
+                    text: "אילו מבין האישים הבאים היו בין חותמי מגילת העצמאות? (בחר את כל התשובות הנכונות)",
+                    type: "multi",
+                    options: ["דוד בן-גוריון", "תאודור הרצל", "גולדה מאיר", "חיים ויצמן"],
+                    answer: [0, 2]
+                },
+                {
+                    id: 3,
+                    text: "כ\"ט בנובמבר הוא התאריך שבו עצרת האו\"ם אישרה את תוכנית החלוקה. באיזה חודש ושנה זה קרה?",
+                    type: "single",
+                    options: ["נובמבר 1947", "נובמבר 1948", "מאי 1948", "ינואר 1947"],
+                    answer: [0]
+                }
+            ]
+            // כדי להוסיף נושא נוסף, אפשר להוסיף פסיק כאן ולפתוח קטגוריה חדשה באותו מבנה
+        };
+
+        let currentQueue = [];
+        let currentQuestion = null;
+        const CORRECT_CODE = "2142";
+
+        function checkLogin() {
+            const code = document.getElementById("passcode").value;
+            if (code === CORRECT_CODE) {
+                document.getElementById("login-screen").classList.add("hidden");
+                loadTopics();
+                document.getElementById("topics-screen").classList.remove("hidden");
+            } else {
+                document.getElementById("login-error").classList.remove("hidden");
+            }
+        }
+
+        function loadTopics() {
+            const listContainer = document.getElementById("topics-list");
+            listContainer.innerHTML = "";
+            for (const topic in database) {
+                const btn = document.createElement("button");
+                btn.className = "topic-btn";
+                btn.innerText = topic;
+                btn.onclick = () => startQuiz(topic);
+                listContainer.appendChild(btn);
+            }
+        }
+
+        function startQuiz(topic) {
+            currentQueue = [...database[topic]];
+            document.getElementById("topics-screen").classList.add("hidden");
+            document.getElementById("quiz-screen").classList.remove("hidden");
+            loadNextQuestion();
+        }
+
+        function loadNextQuestion() {
+            if (currentQueue.length === 0) {
+                document.getElementById("quiz-screen").classList.add("hidden");
+                document.getElementById("finish-screen").classList.remove("hidden");
+                return;
+            }
+
+            currentQuestion = currentQueue[0];
+            document.getElementById("queue-stats").innerText = `שאלות שנותרו בתור: ${currentQueue.length}`;
+            document.getElementById("question-text").innerText = currentQuestion.text;
+            
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            const inputType = currentQuestion.type === "multi" ? "checkbox" : "radio";
+
+            currentQuestion.options.forEach((opt, index) => {
+                const label = document.createElement("label");
+                label.className = "option-label";
+                label.innerHTML = `
+                    <input type="${inputType}" name="quiz-option" value="${index}">
+                    ${opt}
+                `;
+                optionsContainer.appendChild(label);
+            });
+
+            document.getElementById("feedback").classList.add("hidden");
+            document.getElementById("submit-btn").classList.remove("hidden");
+            document.getElementById("next-btn").classList.add("hidden");
+        }
+
+        function checkAnswer() {
+            const selectedInputs = document.querySelectorAll('input[name="quiz-option"]:checked');
+            if (selectedInputs.length === 0) {
+                alert("נא לבחור לפחות תשובה אחת");
+                return;
+            }
+
+            const selectedValues = Array.from(selectedInputs).map(input => parseInt(input.value));
+            
+            const isCorrect = 
+                selectedValues.length === currentQuestion.answer.length &&
+                selectedValues.every(val => currentQuestion.answer.includes(val));
+
+            const feedbackEl = document.getElementById("feedback");
+            feedbackEl.classList.remove("hidden");
+
+            currentQueue.shift();
+
+            if (isCorrect) {
+                feedbackEl.className = "feedback correct";
+                feedbackEl.innerText = "תשובה נכונה! כל הכבוד 🎉";
+            } else {
+                feedbackEl.className = "feedback incorrect";
+                const correctTexts = currentQuestion.answer.map(idx => currentQuestion.options[idx]).join(', ');
+                feedbackEl.innerText = `תשובה שגויה. התשובה הנכונה היא: ${correctTexts}. השאלה תוחזר לסוף התור 🔄`;
+                currentQueue.push(currentQuestion);
+            }
+
+            document.getElementById("submit-btn").classList.add("hidden");
+            document.getElementById("next-btn").classList.remove("hidden");
+        }
+
+        document.getElementById("login-btn").addEventListener("click", checkLogin);
+        document.getElementById("passcode").addEventListener("keypress", function(e) {
+            if (e.key === 'Enter') checkLogin();
+        });
+        document.getElementById("submit-btn").addEventListener("click", checkAnswer);
+        document.getElementById("next-btn").addEventListener("click", loadNextQuestion);
+        document.getElementById("back-btn").addEventListener("click", function() {
+            document.getElementById("finish-screen").classList.add("hidden");
+            document.getElementById("topics-screen").classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
