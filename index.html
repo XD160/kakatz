@@ -171,7 +171,7 @@
             <button id="back-btn">בחר נושא אחר</button>
         </div>
     </div>
-
+ מ 
     <script>
         // מאגר השאלות והנושאים - לכאן תוכל להוסיף עוד שאלות ונושאים בקלות
         const database = {
@@ -183,6 +183,34 @@
                     options: ["18", "15", "6", "4"],
                     answer: [0] // אינדקס התשובה הנכונה (מתחיל מ-0)
                 },
+                {
+                    id: 2,
+                    text: "באיזו עלייה עלה לארץ נפתלי הרץ אימבר?",
+                    type: "single",
+                    options: ["עלייה שלישית", "עלייה חמישית", "עלייה שנייה", "עלייה ראשונה"],
+                    answer: [3] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                },
+                {
+                    id: 3,
+                    text: "במהלך איזה אירוע החלו לשיר את שירת התקווה באופן ספונטני?",
+                    type: "single",
+                    options: ["הקונגרס השישי", "הקונגרס השלישי", "הקונגרס ה18", "הכרזת העצמאות"],
+                    answer: [3] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                },
+                {
+                    id: 4,
+                    text: "בשיר מצוין כי התקווה בת שנות אלפיים, למה הכוונה?",
+                    type: "single",
+                    options: ["עברו כ 2000 שנים מאז מעמד הר סיני", "אנו נמצאים בשנות ה 2000", "אלפיים שנות גלות"],
+                    answer: [2] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                },
+                {
+                    id: 5,
+                    text: "כמה בתים יש בהמנון התקווה?",
+                    type: "single",
+                    options: ["9", "5", "2", "10"],
+                    answer: [2] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                },                
                 {
                     id: 2,
                     text: "אילו מבין האישים הבאים היו בין חותמי מגילת העצמאות? (בחר את כל התשובות הנכונות)",
@@ -203,7 +231,7 @@
 
         let currentQueue = [];
         let currentQuestion = null;
-        const CORRECT_CODE = "2142";
+        const CORRECT_CODE = "4002";
 
         function checkLogin() {
             const code = document.getElementById("passcode").value;
@@ -286,11 +314,11 @@
 
             if (isCorrect) {
                 feedbackEl.className = "feedback correct";
-                feedbackEl.innerText = "תשובה נכונה! כל הכבוד 🎉";
+                feedbackEl.innerText = "תשובה נכונה!";
             } else {
                 feedbackEl.className = "feedback incorrect";
                 const correctTexts = currentQuestion.answer.map(idx => currentQuestion.options[idx]).join(', ');
-                feedbackEl.innerText = `תשובה שגויה. התשובה הנכונה היא: ${correctTexts}. השאלה תוחזר לסוף התור 🔄`;
+                feedbackEl.innerText = `תשובה שגויה. התשובה הנכונה היא: ${correctTexts}. השאלה תחזור בהמשךך`;
                 currentQueue.push(currentQuestion);
             }
 
