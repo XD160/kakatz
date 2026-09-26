@@ -34,7 +34,7 @@
             border-radius: 16px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             width: 100%;
-            max-width: 400px;
+            max-width: 480px;
             box-sizing: border-box;
         }
 
@@ -44,15 +44,14 @@
             color: var(--primary-color);
         }
 
-        input[type="password"], input[type="text"] {
+        input[type="password"], input[type="text"], select, textarea {
             width: 100%;
-            padding: 12px;
-            margin: 12px 0;
+            padding: 10px;
+            margin: 8px 0;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             box-sizing: border-box;
-            font-size: 16px;
-            text-align: center;
+            font-size: 15px;
         }
 
         button {
@@ -94,7 +93,7 @@
             align-items: center;
             background: #f9fafb;
             border: 1px solid var(--border-color);
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
             margin-bottom: 8px;
             cursor: pointer;
@@ -131,6 +130,21 @@
             margin-bottom: 12px;
             text-align: center;
         }
+
+        .admin-box {
+            background: #f9fafb;
+            border: 2px dashed var(--border-color);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .admin-box h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: var(--primary-color);
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -145,11 +159,33 @@
             <p id="login-error" style="color: var(--error-color); text-align: center; font-size: 14px;" class="hidden">קוד שגוי, נסה שוב</p>
         </div>
 
-        <!-- מסך בחירת נושאים -->
+        <!-- מסך בחירת נושאים וניהול שאלות -->
         <div id="topics-screen" class="hidden">
             <h2>בחר נושא לתרגול</h2>
             <div id="topics-list">
                 <!-- כאן יופיעו הנושאים דינמית -->
+            </div>
+
+            <!-- אזור הוספת שאלות מהיר (GUI) -->
+            <div class="admin-box">
+                <h3>➕ הוספת שאלה חדשה למאגר</h3>
+                <label style="font-size: 13px; font-weight: bold;">בחר נושא:</label>
+                <select id="new-q-topic">
+                    <option value="המנון">המנון</option>
+                </select>
+                <input type="text" id="new-q-text" placeholder="טקסט השאלה...">
+                
+                <label style="font-size: 13px; font-weight: bold; margin-top: 5px; display: block;">4 תשובות אפשריות:</label>
+                <input type="text" class="new-opt" placeholder="תשובה 1">
+                <input type="text" class="new-opt" placeholder="תשובה 2">
+                <input type="text" class="new-opt" placeholder="תשובה 3">
+                <input type="text" class="new-opt" placeholder="תשובה 4">
+
+                <label style="font-size: 13px; font-weight: bold; margin-top: 5px; display: block;">מספר התשובה הנכונה (1 עד 4):</label>
+                <input type="number" id="new-q-answer" min="1" max="4" value="1" placeholder="למשל: 1">
+
+                <button id="add-question-btn" style="background-color: var(--success-color);">הוסף שאלה למאגר</button>
+                <p id="add-success-msg" style="color: var(--success-color); font-size: 13px; text-align: center; margin-top: 5px;" class="hidden">השאלה נוספה בהצלחה!</p>
             </div>
         </div>
 
@@ -171,9 +207,9 @@
             <button id="back-btn">בחר נושא אחר</button>
         </div>
     </div>
- מ 
+  
     <script>
-        // מאגר השאלות והנושאים - לכאן תוכל להוסיף עוד שאלות ונושאים בקלות
+        // מאגר השאלות והנושאים
         const database = {
             "המנון": [
                 {
@@ -181,52 +217,37 @@
                     text: "באיזה קונגרס נקבעה ״התקווה״ בתור ההמנון הרשמי של התנועה הציונית?",
                     type: "single",
                     options: ["18", "15", "6", "4"],
-                    answer: [0] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                    answer: [0]
                 },
                 {
                     id: 2,
                     text: "באיזו עלייה עלה לארץ נפתלי הרץ אימבר?",
                     type: "single",
                     options: ["עלייה שלישית", "עלייה חמישית", "עלייה שנייה", "עלייה ראשונה"],
-                    answer: [3] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                    answer: [3]
                 },
                 {
                     id: 3,
                     text: "במהלך איזה אירוע החלו לשיר את שירת התקווה באופן ספונטני?",
                     type: "single",
                     options: ["הקונגרס השישי", "הקונגרס השלישי", "הקונגרס ה18", "הכרזת העצמאות"],
-                    answer: [3] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                    answer: [3]
                 },
                 {
                     id: 4,
                     text: "בשיר מצוין כי התקווה בת שנות אלפיים, למה הכוונה?",
                     type: "single",
                     options: ["עברו כ 2000 שנים מאז מעמד הר סיני", "אנו נמצאים בשנות ה 2000", "אלפיים שנות גלות"],
-                    answer: [2] // אינדקס התשובה הנכונה (מתחיל מ-0)
+                    answer: [2]
                 },
                 {
                     id: 5,
                     text: "כמה בתים יש בהמנון התקווה?",
                     type: "single",
                     options: ["9", "5", "2", "10"],
-                    answer: [2] // אינדקס התשובה הנכונה (מתחיל מ-0)
-                },                
-                {
-                    id: 2,
-                    text: "אילו מבין האישים הבאים היו בין חותמי מגילת העצמאות? (בחר את כל התשובות הנכונות)",
-                    type: "multi",
-                    options: ["דוד בן-גוריון", "תאודור הרצל", "גולדה מאיר", "חיים ויצמן"],
-                    answer: [0, 2]
+                    answer: [2]
                 },
-                {
-                    id: 3,
-                    text: "כ\"ט בנובמבר הוא התאריך שבו עצרת האו\"ם אישרה את תוכנית החלוקה. באיזה חודש ושנה זה קרה?",
-                    type: "single",
-                    options: ["נובמבר 1947", "נובמבר 1948", "מאי 1948", "ינואר 1947"],
-                    answer: [0]
-                }
             ]
-            // כדי להוסיף נושא נוסף, אפשר להוסיף פסיק כאן ולפתוח קטגוריה חדשה באותו מבנה
         };
 
         let currentQueue = [];
@@ -246,14 +267,64 @@
 
         function loadTopics() {
             const listContainer = document.getElementById("topics-list");
+            const selectContainer = document.getElementById("new-q-topic");
+            
             listContainer.innerHTML = "";
+            selectContainer.innerHTML = "";
+
             for (const topic in database) {
+                // יצירת כפתור תרגול לנושא
                 const btn = document.createElement("button");
                 btn.className = "topic-btn";
-                btn.innerText = topic;
+                btn.innerText = `תרגל נושא: ${topic}`;
                 btn.onclick = () => startQuiz(topic);
                 listContainer.appendChild(btn);
+
+                // הוספת הנושא לרשימת הבחירה בטופס הוספת השאלות
+                const opt = document.createElement("option");
+                opt.value = topic;
+                opt.innerText = topic;
+                selectContainer.appendChild(opt);
             }
+        }
+
+        function addNewQuestion() {
+            const topic = document.getElementById("new-q-topic").value;
+            const text = document.getElementById("new-q-text").value.trim();
+            const optionInputs = document.querySelectorAll(".new-opt");
+            const options = Array.from(optionInputs).map(input => input.value.trim());
+            const correctNum = parseInt(document.getElementById("new-q-answer").value) - 1;
+
+            if (!text || options.some(opt => opt === "")) {
+                alert("נא למלא את כל שדות השאלה והתשובות!");
+                return;
+            }
+
+            if (isNaN(correctNum) || correctNum < 0 || correctNum >= options.length) {
+                alert("מספר התשובה הנכונה חייב להיות בין 1 ל-4");
+                return;
+            }
+
+            // יצירת אובייקט השאלה החדש בהתאם למבנה שלך
+            const newQuestionObj = {
+                id: database[topic].length + 1,
+                text: text,
+                type: "single",
+                options: options,
+                answer: [correctNum]
+            };
+
+            // הוספה למאגר שרץ כרגע בזיכרון
+            database[topic].push(newQuestionObj);
+
+            // איפוס הטופס
+            document.getElementById("new-q-text").value = "";
+            optionInputs.forEach(input => input.value = "");
+            document.getElementById("new-q-answer").value = "1";
+
+            const successMsg = document.getElementById("add-success-msg");
+            successMsg.classList.remove("hidden");
+            setTimeout(() => successMsg.classList.add("hidden"), 3000);
         }
 
         function startQuiz(topic) {
@@ -330,6 +401,7 @@
         document.getElementById("passcode").addEventListener("keypress", function(e) {
             if (e.key === 'Enter') checkLogin();
         });
+        document.getElementById("add-question-btn").addEventListener("click", addNewQuestion);
         document.getElementById("submit-btn").addEventListener("click", checkAnswer);
         document.getElementById("next-btn").addEventListener("click", loadNextQuestion);
         document.getElementById("back-btn").addEventListener("click", function() {
