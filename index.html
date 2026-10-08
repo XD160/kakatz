@@ -44,7 +44,7 @@
             color: var(--primary-color);
         }
 
-        input[type="password"], input[type="text"], select, textarea {
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
@@ -52,6 +52,7 @@
             border-radius: 8px;
             box-sizing: border-box;
             font-size: 15px;
+            text-align: center;
         }
 
         button {
@@ -130,21 +131,6 @@
             margin-bottom: 12px;
             text-align: center;
         }
-
-        .admin-box {
-            background: #f9fafb;
-            border: 2px dashed var(--border-color);
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 20px;
-        }
-
-        .admin-box h3 {
-            margin-top: 0;
-            font-size: 16px;
-            color: var(--primary-color);
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -159,33 +145,11 @@
             <p id="login-error" style="color: var(--error-color); text-align: center; font-size: 14px;" class="hidden">קוד שגוי, נסה שוב</p>
         </div>
 
-        <!-- מסך בחירת נושאים וניהול שאלות -->
+        <!-- מסך בחירת נושאים -->
         <div id="topics-screen" class="hidden">
             <h2>בחר נושא לתרגול</h2>
             <div id="topics-list">
                 <!-- כאן יופיעו הנושאים דינמית -->
-            </div>
-
-            <!-- אזור הוספת שאלות מהיר (GUI) -->
-            <div class="admin-box">
-                <h3>➕ הוספת שאלה חדשה למאגר</h3>
-                <label style="font-size: 13px; font-weight: bold;">בחר נושא:</label>
-                <select id="new-q-topic">
-                    <option value="המנון">המנון</option>
-                </select>
-                <input type="text" id="new-q-text" placeholder="טקסט השאלה...">
-                
-                <label style="font-size: 13px; font-weight: bold; margin-top: 5px; display: block;">4 תשובות אפשריות:</label>
-                <input type="text" class="new-opt" placeholder="תשובה 1">
-                <input type="text" class="new-opt" placeholder="תשובה 2">
-                <input type="text" class="new-opt" placeholder="תשובה 3">
-                <input type="text" class="new-opt" placeholder="תשובה 4">
-
-                <label style="font-size: 13px; font-weight: bold; margin-top: 5px; display: block;">מספר התשובה הנכונה (1 עד 4):</label>
-                <input type="number" id="new-q-answer" min="1" max="4" value="1" placeholder="למשל: 1">
-
-                <button id="add-question-btn" style="background-color: var(--success-color);">הוסף שאלה למאגר</button>
-                <p id="add-success-msg" style="color: var(--success-color); font-size: 13px; text-align: center; margin-top: 5px;" class="hidden">השאלה נוספה בהצלחה!</p>
             </div>
         </div>
 
@@ -246,7 +210,7 @@
                     type: "single",
                     options: ["9", "5", "2", "10"],
                     answer: [2]
-                },
+                }
             ]
         };
 
@@ -267,64 +231,15 @@
 
         function loadTopics() {
             const listContainer = document.getElementById("topics-list");
-            const selectContainer = document.getElementById("new-q-topic");
-            
             listContainer.innerHTML = "";
-            selectContainer.innerHTML = "";
 
             for (const topic in database) {
-                // יצירת כפתור תרגול לנושא
                 const btn = document.createElement("button");
                 btn.className = "topic-btn";
                 btn.innerText = `תרגל נושא: ${topic}`;
                 btn.onclick = () => startQuiz(topic);
                 listContainer.appendChild(btn);
-
-                // הוספת הנושא לרשימת הבחירה בטופס הוספת השאלות
-                const opt = document.createElement("option");
-                opt.value = topic;
-                opt.innerText = topic;
-                selectContainer.appendChild(opt);
             }
-        }
-
-        function addNewQuestion() {
-            const topic = document.getElementById("new-q-topic").value;
-            const text = document.getElementById("new-q-text").value.trim();
-            const optionInputs = document.querySelectorAll(".new-opt");
-            const options = Array.from(optionInputs).map(input => input.value.trim());
-            const correctNum = parseInt(document.getElementById("new-q-answer").value) - 1;
-
-            if (!text || options.some(opt => opt === "")) {
-                alert("נא למלא את כל שדות השאלה והתשובות!");
-                return;
-            }
-
-            if (isNaN(correctNum) || correctNum < 0 || correctNum >= options.length) {
-                alert("מספר התשובה הנכונה חייב להיות בין 1 ל-4");
-                return;
-            }
-
-            // יצירת אובייקט השאלה החדש בהתאם למבנה שלך
-            const newQuestionObj = {
-                id: database[topic].length + 1,
-                text: text,
-                type: "single",
-                options: options,
-                answer: [correctNum]
-            };
-
-            // הוספה למאגר שרץ כרגע בזיכרון
-            database[topic].push(newQuestionObj);
-
-            // איפוס הטופס
-            document.getElementById("new-q-text").value = "";
-            optionInputs.forEach(input => input.value = "");
-            document.getElementById("new-q-answer").value = "1";
-
-            const successMsg = document.getElementById("add-success-msg");
-            successMsg.classList.remove("hidden");
-            setTimeout(() => successMsg.classList.add("hidden"), 3000);
         }
 
         function startQuiz(topic) {
@@ -401,7 +316,6 @@
         document.getElementById("passcode").addEventListener("keypress", function(e) {
             if (e.key === 'Enter') checkLogin();
         });
-        document.getElementById("add-question-btn").addEventListener("click", addNewQuestion);
         document.getElementById("submit-btn").addEventListener("click", checkAnswer);
         document.getElementById("next-btn").addEventListener("click", loadNextQuestion);
         document.getElementById("back-btn").addEventListener("click", function() {
