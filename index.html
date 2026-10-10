@@ -306,8 +306,43 @@
                     id: 19,
                     text: "על ידי מי נכתב ההמנון הלאומי?",
                     type: "single",
-                    options: ["נפתלי ארץ אימבר", "נעמי שמר", "נפתלי הרץ אימבר"],
+                    options: ["נפתלי ארץ אימבר", "נעמי שמר", "נפתלי הרץ אימבר", "חיים ראובן הרצוג"],
                     answer: [2]
+                },
+                {
+                    id: 20,
+                    text: "לאיזה קבוצה ההמנון קיבל משמעות מיוחדת?",
+                    type: "single",
+                    options: ["חברי הקונגרס השישי", "חברי הקונגרס ה-18", "מתנגדי תוכנית אוגנדה", "תומכי תוכנית אוגנדה"],
+                    answer: [2]
+                },
+                {
+                    id: 21,
+                    text: "איפה המשורר של ההמנון הלאומי נולד?",
+                    type: "single",
+                    options: ["גליציה", "פולין", "ישראל", "איסלנד"],
+                    answer: [0]
+                },
+                {
+                    id: 22,
+                    text: "מה מבטאות מילותיו של ההמנון?",
+                    type: "multi",
+                    options: ["זיקה וכמיהה לציון", "זיקה וכבוד לישראל", "כבוד לארץ ישראל", "אף תשובה אינה נכונה"],
+                    answer: [0, 2]
+                },
+                {
+                    id: 23,
+                    text: "מה פירוש המילה \"הומיה\"?",
+                    type: "single",
+                    options: ["מחכה", "רועשת וונרגשת", "משתוקקת", "רגועה ושקטה"],
+                    answer: [1]
+                },
+                {
+                    id: 24,
+                    text: "באיזה שנה נכתב ההמנון הלאומי?",
+                    type: "single",
+                    options: ["1878", "1987", "1788"],
+                    answer: [0]
                 }
             ]
         };
@@ -334,92 +369,4 @@
             for (const topic in database) {
                 const btn = document.createElement("button");
                 btn.className = "topic-btn";
-                btn.innerText = `תרגל נושא: ${topic}`;
-                btn.onclick = () => startQuiz(topic);
-                listContainer.appendChild(btn);
-            }
-        }
-
-        function startQuiz(topic) {
-            currentQueue = [...database[topic]];
-            document.getElementById("topics-screen").classList.add("hidden");
-            document.getElementById("quiz-screen").classList.remove("hidden");
-            loadNextQuestion();
-        }
-
-        function loadNextQuestion() {
-            if (currentQueue.length === 0) {
-                document.getElementById("quiz-screen").classList.add("hidden");
-                document.getElementById("finish-screen").classList.remove("hidden");
-                return;
-            }
-
-            currentQuestion = currentQueue[0];
-            document.getElementById("queue-stats").innerText = `שאלות שנותרו בתור: ${currentQueue.length}`;
-            document.getElementById("question-text").innerText = currentQuestion.text;
-            
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-
-            const inputType = currentQuestion.type === "multi" ? "checkbox" : "radio";
-
-            currentQuestion.options.forEach((opt, index) => {
-                const label = document.createElement("label");
-                label.className = "option-label";
-                label.innerHTML = `
-                    <input type="${inputType}" name="quiz-option" value="${index}">
-                    ${opt}
-                `;
-                optionsContainer.appendChild(label);
-            });
-
-            document.getElementById("feedback").classList.add("hidden");
-            document.getElementById("submit-btn").classList.remove("hidden");
-            document.getElementById("next-btn").classList.add("hidden");
-        }
-
-        function checkAnswer() {
-            const selectedInputs = document.querySelectorAll('input[name="quiz-option"]:checked');
-            if (selectedInputs.length === 0) {
-                alert("נא לבחור לפחות תשובה אחת");
-                return;
-            }
-
-            const selectedValues = Array.from(selectedInputs).map(input => parseInt(input.value));
-            
-            const isCorrect = 
-                selectedValues.length === currentQuestion.answer.length &&
-                selectedValues.every(val => currentQuestion.answer.includes(val));
-
-            const feedbackEl = document.getElementById("feedback");
-            feedbackEl.classList.remove("hidden");
-
-            currentQueue.shift();
-
-            if (isCorrect) {
-                feedbackEl.className = "feedback correct";
-                feedbackEl.innerText = "תשובה נכונה!";
-            } else {
-                feedbackEl.className = "feedback incorrect";
-                const correctTexts = currentQuestion.answer.map(idx => currentQuestion.options[idx]).join(', ');
-                feedbackEl.innerText = `תשובה שגויה. התשובה הנכונה היא: ${correctTexts}. השאלה תחזור בהמשךך`;
-                currentQueue.push(currentQuestion);
-            }
-
-            document.getElementById("submit-btn").classList.add("hidden");
-            document.getElementById("next-btn").classList.remove("hidden");
-        }
-
-        document.getElementById("login-btn").addEventListener("click", checkLogin);
-        document.getElementById("passcode").addEventListener("keypress", function(e) {
-            if (e.key === 'Enter') checkLogin();
-        });
-        document.getElementById("submit-btn").addEventListener("click", checkAnswer);
-        document.getElementById("next-btn").addEventListener("click", loadNextQuestion);
-        document.getElementById("back-btn").addEventListener("click", function() {
-            document.getElementById("finish-screen").classList.add("hidden");
-            document.getElementById("topics-screen").classList.remove("hidden");
-        });
-    </script>
-</body>
-</html>
+                btn.innerText =
