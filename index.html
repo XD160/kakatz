@@ -6,19 +6,20 @@
     <title>שאלון לתרגול</title>
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-color: #f3f4f6;
+            --primary-color: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --bg-gradient-start: #fdf4ff;
+            --bg-gradient-end: #fae8ff;
             --card-bg: #ffffff;
             --text-color: #1f2937;
-            --border-color: #d1d5db;
+            --border-color: #f3e8ff;
             --success-color: #10b981;
             --error-color: #ef4444;
         }
 
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 100%);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
@@ -30,47 +31,69 @@
 
         .container {
             background: var(--card-bg);
-            padding: 24px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 32px 24px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.15), 0 8px 10px -6px rgba(139, 92, 246, 0.1);
             width: 100%;
-            max-width: 480px;
+            max-width: 420px;
             box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
         h2 {
             margin-top: 0;
             text-align: center;
-            color: var(--primary-color);
+            color: #6d28d9;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #4b5563;
         }
 
         input[type="password"] {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            padding: 14px;
+            margin: 12px 0;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             box-sizing: border-box;
-            font-size: 15px;
+            font-size: 16px;
             text-align: center;
+            background-color: #faf5ff;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="password"]:focus {
+            border-color: var(--primary-color);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
         }
 
         button {
             width: 100%;
-            padding: 12px;
-            background-color: var(--primary-color);
+            padding: 14px;
+            background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 8px;
+            transition: opacity 0.2s, transform 0.1s;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.25);
         }
 
         button:hover {
-            background-color: var(--primary-hover);
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         .hidden {
@@ -79,38 +102,49 @@
 
         .topic-btn {
             background-color: #ffffff;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            margin-bottom: 10px;
+            color: #7c3aed;
+            border: 2px solid #ddd6fe;
+            margin-bottom: 12px;
+            box-shadow: none;
+            font-weight: 600;
         }
 
         .topic-btn:hover {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
             color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.25);
         }
 
         .option-label {
             display: flex;
             align-items: center;
-            background: #f9fafb;
-            border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            background: #faf5ff;
+            border: 2px solid #f3e8ff;
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 10px;
             cursor: pointer;
             font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            border-color: #d8b4fe;
+            background-color: #f3e8ff;
         }
 
         .option-label input {
-            margin-left: 10px;
-            width: 18px;
-            height: 18px;
+            margin-left: 12px;
+            width: 20px;
+            height: 20px;
+            accent-color: #9333ea;
         }
 
         .feedback {
             margin-top: 15px;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 12px;
             text-align: center;
             font-weight: bold;
         }
@@ -128,8 +162,9 @@
         .stats {
             font-size: 14px;
             color: #6b7280;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             text-align: center;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -139,16 +174,16 @@
         <!-- מסך כניסה -->
         <div id="login-screen">
             <h2>כניסה למערכת</h2>
-            <p style="text-align: center; font-size: 14px; color: #6b7280;">הכנס את קוד הגישה</p>
-            <input type="password" id="passcode" placeholder="קוד" maxlength="4">
-            <button id="login-btn">הכנס</button>
-            <p id="login-error" style="color: var(--error-color); text-align: center; font-size: 14px;" class="hidden">קוד שגוי, נסה שוב</p>
+            <p style="text-align: center; font-size: 14px; margin-bottom: 16px;">הכנס את קוד הגישה כדי להתחיל</p>
+            <input type="password" id="passcode" placeholder="••••" maxlength="4">
+            <button id="login-btn">כניסה</button>
+            <p id="login-error" style="color: var(--error-color); text-align: center; font-size: 14px; margin-top: 12px;" class="hidden">קוד שגוי, נסה שוב</p>
         </div>
 
         <!-- מסך בחירת נושאים -->
         <div id="topics-screen" class="hidden">
             <h2>בחר נושא לתרגול</h2>
-            <div id="topics-list">
+            <div id="topics-list" style="margin-top: 20px;">
                 <!-- כאן יופיעו הנושאים דינמית -->
             </div>
         </div>
@@ -156,8 +191,8 @@
         <!-- מסך שאלון -->
         <div id="quiz-screen" class="hidden">
             <div class="stats" id="queue-stats">שאלות בתור: 0</div>
-            <h3 id="question-title">כותרת השאלה</h3>
-            <p id="question-text" style="font-weight: 500;"></p>
+            <h3 id="question-title" style="color: #6d28d9; margin-top: 0;"></h3>
+            <p id="question-text" style="font-weight: 600; font-size: 16px; line-height: 1.5; margin-bottom: 20px;"></p>
             <div id="options-container"></div>
             <button id="submit-btn">בדוק תשובה</button>
             <button id="next-btn" class="hidden">השאלה הבאה</button>
@@ -165,9 +200,9 @@
         </div>
 
         <!-- מסך סיום -->
-        <div id="finish-screen" class="hidden">
-            <h2>כל הכבוד! </h2>
-            <p style="text-align: center;">סיימת את כל השאלות בהצלחה.</p>
+        <div id="finish-screen" class="hidden" style="text-align: center;">
+            <h2 style="margin-bottom: 10px;">כל הכבוד! 🎉</h2>
+            <p style="margin-bottom: 20px;">סיימת את כל השאלות בהצלחה.</p>
             <button id="back-btn">בחר נושא אחר</button>
         </div>
     </div>
@@ -420,7 +455,12 @@
                     id: 11,
                     text: "מהו מצב power save?",
                     type: "single",
-                    options: ["לאחר 8 שניות כשלא בוצעה פעולה כלשהי במכשיר, המכשיר יכבה","מצב חיסכון סוללה המופעל דקה שלא בוצעה פעולה במכשיר","לא קיים כזה במ.ק 714","מצב חיסכון סוללה המופעל לאחר 8 שניות שלא בוצעה פעולה במכשיר"],
+                    options: [
+                        "לאחר 8 שניות כשלא בוצעה פעולה כלשהי במכשיר, המכשיר יכבה",
+                        "מצב חיסכון סוללה המופעל דקה שלא בוצעה פעולה במכשיר",
+                        "לא קיים כזה במ.ק 714",
+                        "מצב חיסכון סוללה המופעל לאחר 8 שניות שלא בוצעה פעולה במכשיר"
+                    ],
                     answer: [3]
                 },
                 {
@@ -462,8 +502,8 @@
                     id: 17,
                     text: "מה משמעות המושג א.ב פונטי?",
                     type: "single",
-                    options: ["לכל אות נתנו מספר המייצג אותה", "לכל אות נתנו ציור המייצג אותה", "לכל אות נתנו מילה המייצגת אותה", "אף תשובה אינה נכונה"],
-                    answer: [2]
+                    options: ["לכל אות נתנו מספר המייצג אותה", "לכל אות נתנו מילה המייצגת אותה", "אף תשובה אינה נכונה"],
+                    answer: [1]
                 },
                 {
                     id: 18,
@@ -476,7 +516,12 @@
                     id: 19,
                     text: "על מה יש להקפיד בשימוש בדב\"ר?",
                     type: "single",
-                    options: ["קצב, מהירות, עוצמה, גובה","מהירות, גובה, כמות מילים, עוצמה","קצב, כמות מילים, מהירות, גובה","סביבה שקטה, קצב, עוצמה, גובה"],
+                    options: [
+                        "קצב, מהירות, עוצמה, גובה",
+                        "מהירות, גובה, כמות מילים, עוצמה",
+                        "קצב, כמות מילים, מהירות, גובה",
+                        "סביבה שקטה, קצב, עוצמה, גובה"
+                    ],
                     answer: [0]
                 },
                 {
@@ -546,7 +591,6 @@
         }
 
         function startQuiz(topic) {
-            // מערבב את השאלות באקראי בכל תחילת משחק
             currentQueue = [...database[topic]].sort(() => Math.random() - 0.5);
             document.getElementById("topics-screen").classList.add("hidden");
             document.getElementById("quiz-screen").classList.remove("hidden");
