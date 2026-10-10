@@ -344,6 +344,90 @@
                     options: ["1878", "1987", "1788"],
                     answer: [0]
                 }
+            ],
+            "קשר": [
+                {
+                    id: 1,
+                    text: "את איזה מכשיר נועד להחליף מ.ק 624?",
+                    type: "single",
+                    options: ["77", "714", "710", "91"],
+                    answer: [2] // C (710)
+                },
+                {
+                    id: 2,
+                    text: "באיזה אנטנה יש להשתמש במ.ק 714?",
+                    type: "single",
+                    options: ["אנטנה 892", "אנטנה 189", "אנטנה 714", "אנטנה 614"],
+                    answer: [0] // A (אנטנה 892)
+                },
+                {
+                    id: 3,
+                    text: "באיזו שפה כתוב התפריט של מ.ק 714?",
+                    type: "single",
+                    options: ["אין מילים רק מספרים", "אנגלית", "עברית", "גרמנית"],
+                    answer: [1] // B (אנגלית)
+                },
+                {
+                    id: 4,
+                    text: "באיזה תחום תדרים עובד מ.ק 714?",
+                    type: "single",
+                    options: ["תא\"ג", "ת\"ג", "תג\"ם", "אף תשובה אינה נכונה"],
+                    answer: [2] // C (תג"ם)
+                },
+                {
+                    id: 5,
+                    text: "כמה אפיקי עבודה יש למ.ק 714 ו-624?",
+                    type: "single",
+                    options: ["2230", "2320", "3200", "1100"],
+                    answer: [1] // B (2320)
+                },
+                {
+                    id: 6,
+                    text: "לאיזה מכשיר יש אופציה לחיבור קופסת פיקוד?",
+                    type: "single",
+                    options: ["V4", "V100", "V12", "V24"],
+                    answer: [2] // C (V12)
+                },
+                {
+                    id: 7,
+                    text: "לאיזה מכשיר יש אופציה לחיבור קופסת פיקוד?", // מופיע שוב כפול בתמונה
+                    type: "single",
+                    options: ["714", "710", "624", "77"],
+                    answer: [2] // C (624)
+                },
+                {
+                    id: 8,
+                    text: "מאיזה רמה מיושם ההק\"ש?",
+                    type: "single",
+                    options: ["מרמת הפלוגה", "מרמת הגדוד", "מרמת החטיבה", "מרמת האוגדה"],
+                    answer: [2] // C (מרמת החטיבה)
+                },
+                {
+                    id: 9,
+                    text: "מה אומר המושג נק\"מ?",
+                    type: "single",
+                    options: ["נהלי קשר מיוחדים", "נהלי קרב מתקדמים", "נהלי קשר מתקדמים", "נהלי קשר מרוכזים"],
+                    answer: [0] // A (נהלי קשר מיוחדים)
+                },
+                {
+                    id: 10,
+                    text: "מהו הדבר הראשון שנעשה בסדר הכנה לפעולה במ.ק 714?",
+                    type: "single",
+                    options: ["נוודא שהמכשיר מכובה", "נחבר אנטנה", "נחבר מתח", "נוודא שהמכשיר דלוק"],
+                    answer: [0] // A (נוודא שהמכשיר מכובה)
+                },
+                {
+                    id: 11,
+                    text: "מהו מצב power save?",
+                    type: "single",
+                    options: [
+                        "לאחר 8 שניות כשלא בוצעה פעולה כלשהי במכשיר, המכשיר יכבה",
+                        "מצב חיסכון סוללה המופעל דקה שלא בוצעה פעולה במכשיר",
+                        "לא קיים כזה במ.ק 714",
+                        "מצב חיסכון סוללה המופעל לאחר 8 שניות שלא בוצעה פעולה במכשיר"
+                    ],
+                    answer: [3] // D (מצב חיסכון סוללה המופעל לאחר 8 שניות שלא בוצעה פעולה במכשיר)
+                }
             ]
         };
 
@@ -369,4 +453,93 @@
             for (const topic in database) {
                 const btn = document.createElement("button");
                 btn.className = "topic-btn";
-                btn.innerText =
+                btn.innerText = `תרגל נושא: ${topic}`;
+                btn.onclick = () => startQuiz(topic);
+                listContainer.appendChild(btn);
+            }
+        }
+
+        function startQuiz(topic) {
+            // מערבב את השאלות באקראי בכל תחילת משחק
+            currentQueue = [...database[topic]].sort(() => Math.random() - 0.5);
+            document.getElementById("topics-screen").classList.add("hidden");
+            document.getElementById("quiz-screen").classList.remove("hidden");
+            loadNextQuestion();
+        }
+
+        function loadNextQuestion() {
+            if (currentQueue.length === 0) {
+                document.getElementById("quiz-screen").classList.add("hidden");
+                document.getElementById("finish-screen").classList.remove("hidden");
+                return;
+            }
+
+            currentQuestion = currentQueue[0];
+            document.getElementById("queue-stats").innerText = `שאלות שנותרו בתור: ${currentQueue.length}`;
+            document.getElementById("question-text").innerText = currentQuestion.text;
+            
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            const inputType = currentQuestion.type === "multi" ? "checkbox" : "radio";
+
+            currentQuestion.options.forEach((opt, index) => {
+                const label = document.createElement("label");
+                label.className = "option-label";
+                label.innerHTML = `
+                    <input type="${inputType}" name="quiz-option" value="${index}">
+                    ${opt}
+                `;
+                optionsContainer.appendChild(label);
+            });
+
+            document.getElementById("feedback").classList.add("hidden");
+            document.getElementById("submit-btn").classList.remove("hidden");
+            document.getElementById("next-btn").classList.add("hidden");
+        }
+
+        function checkAnswer() {
+            const selectedInputs = document.querySelectorAll('input[name="quiz-option"]:checked');
+            if (selectedInputs.length === 0) {
+                alert("נא לבחור לפחות תשובה אחת");
+                return;
+            }
+
+            const selectedValues = Array.from(selectedInputs).map(input => parseInt(input.value));
+            
+            const isCorrect = 
+                selectedValues.length === currentQuestion.answer.length &&
+                selectedValues.every(val => currentQuestion.answer.includes(val));
+
+            const feedbackEl = document.getElementById("feedback");
+            feedbackEl.classList.remove("hidden");
+
+            currentQueue.shift();
+
+            if (isCorrect) {
+                feedbackEl.className = "feedback correct";
+                feedbackEl.innerText = "תשובה נכונה!";
+            } else {
+                feedbackEl.className = "feedback incorrect";
+                const correctTexts = currentQuestion.answer.map(idx => currentQuestion.options[idx]).join(', ');
+                feedbackEl.innerText = `תשובה שגויה. התשובה הנכונה היא: ${correctTexts}. השאלה תחזור בהמשך`;
+                currentQueue.push(currentQuestion);
+            }
+
+            document.getElementById("submit-btn").classList.add("hidden");
+            document.getElementById("next-btn").classList.remove("hidden");
+        }
+
+        document.getElementById("login-btn").addEventListener("click", checkLogin);
+        document.getElementById("passcode").addEventListener("keypress", function(e) {
+            if (e.key === 'Enter') checkLogin();
+        });
+        document.getElementById("submit-btn").addEventListener("click", checkAnswer);
+        document.getElementById("next-btn").addEventListener("click", loadNextQuestion);
+        document.getElementById("back-btn").addEventListener("click", function() {
+            document.getElementById("finish-screen").classList.add("hidden");
+            document.getElementById("topics-screen").classList.remove("hidden");
+        });
+    </script>
+</body>
+</html>
