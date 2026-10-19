@@ -101,20 +101,20 @@
         }
 
         .topic-btn {
-            background: linear-gradient(135deg, #9333ea 0%, #db2777 100%); /* רקע צבעוני סגול-ורוד */
-            color: #b888e3; /* טקסט סגול לילךךך לבנדרי קיוטי */
-            border: none;
+            background: linear-gradient(135deg, #e9d5ff 0%, #f472b6 100%); /* סגול לילך בהיר משולב עם ורוד רך */
+            color: #b888e3; /* הכיתוב בסגול רפונזל העדין שחרת */
+            border: 2px solid #f472b6; /* מסגרת ורודה עדינה */
             margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.25);
-            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(244, 114, 182, 0.15);
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .topic-btn:hover {
-            background: linear-gradient(135deg, #d8b4fe 0%, #ec4899 100%);
-            color: #ffffff; /* הטקסט הופך ללבן במעבר עכבר */
-            border-color: #a855f7;
+            background: linear-gradient(135deg, #f472b6 0%, #c084fc 100%); /* מודגש קצת במעבר עכבר */
+            color: #ffffff; /* הטקסט הופך ללבן נקי במעבר עכבר */
+            border-color: #e879f9;
             transform: translateY(-1px);
         }
         .option-label {
@@ -208,7 +208,7 @@
             <h2>כניסה למערכת</h2>
             <p style="text-align: center; font-size: 14px; margin-bottom: 16px;">הכנס את קוד הגישה כדי להתחיל</p>
             <input type="password" id="passcode" placeholder="••••" maxlength="4">
-            <button id="login-btn">כניסה</button> <button id="login-btn" class="topic-btn">כניסה</button>
+            <button id="login-btn" class="topic-btn">כניסה</button>
             <p id="login-error" style="color: var(--error-color); text-align: center; font-size: 14px; margin-top: 12px;" class="hidden">קוד שגוי, נסה שוב</p>
         </div>
 
