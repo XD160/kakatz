@@ -101,20 +101,24 @@
         }
 
         .topic-btn {
-            background: linear-gradient(135deg, #e9d5ff 0%, #f472b6 100%); /* סגול לילך בהיר משולב עם ורוד רך */
-            color: #b888e3; /* הכיתוב בסגול רפונזל העדין שחרת */
-            border: 2px solid #f472b6; /* מסגרת ורודה עדינה */
+            background: linear-gradient(135deg, #e9d5ff 0%, #f472b6 100%);
+            color: #b888e3;
+            border: 1px solid #d8b4fe;
             margin-bottom: 12px;
-            box-shadow: 0 4px 10px rgba(244, 114, 182, 0.15);
-            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(192, 132, 252, 0.15);
+            font-weight: 900; /* עובי גופן מודגש במיוחד (Extra Bold) */
+            font-size: 17px; /* הגדלה קלה של הכתב לקריאות מיטבית */
+            letter-spacing: 0.5px; /* מרווח קל בין האותיות */
+            text-shadow: 0px 1px 2px rgba(91, 33, 182, 0.25); /* צללית עדינה שמבליטה את הטקסט הבהיר */
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .topic-btn:hover {
-            background: linear-gradient(135deg, #f472b6 0%, #c084fc 100%); /* מודגש קצת במעבר עכבר */
-            color: #ffffff; /* הטקסט הופך ללבן נקי במעבר עכבר */
-            border-color: #e879f9;
+            background: linear-gradient(135deg, #d8b4fe 0%, #ec4899 100%);
+            color: #ffffff;
+            border-color: #c084fc;
+            text-shadow: none; /* ביטול הצללית כשהטקסט הופך ללבן */
             transform: translateY(-1px);
         }
         .option-label {
