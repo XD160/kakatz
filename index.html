@@ -166,6 +166,37 @@
             text-align: center;
             font-weight: 500;
         }
+        /* כפתור חזרה אליפטי למעלה */
+        .back-oval-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            padding: 6px 16px;
+            background: #faf5ff;
+            color: #7c3aed;
+            border: 2px solid #ddd6fe;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(139, 92, 246, 0.1);
+            transition: all 0.2s ease;
+            margin-top: 0;
+        }
+        .back-oval-btn:hover {
+            background: #f3e8ff;
+            border-color: #c084fc;
+            color: #6d28d9;
+            transform: translateY(-1px);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
     </style>
 </head>
 <body>
@@ -187,10 +218,12 @@
                 <!-- כאן יופיעו הנושאים דינמית -->
             </div>
         </div>
-
         <!-- מסך שאלון -->
         <div id="quiz-screen" class="hidden">
-            <div class="stats" id="queue-stats">שאלות בתור: 0</div>
+            <div class="quiz-header">
+                <div class="stats" id="queue-stats">שאלות בתור: 0</div>
+                <button class="back-oval-btn" id="header-back-btn">← נושאים</button>
+            </div>
             <h3 id="question-title" style="color: #6d28d9; margin-top: 0;"></h3>
             <p id="question-text" style="font-weight: 600; font-size: 16px; line-height: 1.5; margin-bottom: 20px;"></p>
             <div id="options-container"></div>
@@ -198,7 +231,6 @@
             <button id="next-btn" class="hidden">השאלה הבאה</button>
             <div id="feedback" class="feedback hidden"></div>
         </div>
-
         <!-- מסך סיום -->
         <div id="finish-screen" class="hidden" style="text-align: center;">
             <h2 style="margin-bottom: 10px;">כל הכבוד! 🎉</h2>
@@ -1110,6 +1142,10 @@
         document.getElementById("next-btn").addEventListener("click", loadNextQuestion);
         document.getElementById("back-btn").addEventListener("click", function() {
             document.getElementById("finish-screen").classList.add("hidden");
+            document.getElementById("topics-screen").classList.remove("hidden");
+        });
+        document.getElementById("header-back-btn").addEventListener("click", function() {
+            document.getElementById("quiz-screen").classList.add("hidden");
             document.getElementById("topics-screen").classList.remove("hidden");
         });
     </script>
