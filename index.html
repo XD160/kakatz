@@ -147,6 +147,40 @@
             accent-color: #9333ea;
         }
 
+        /* סימון התשובות לאחר בדיקה */
+        .option-label.answered {
+            cursor: default;
+        }
+
+        .option-label.correct-option,
+        .option-label.correct-option:hover {
+            background-color: #d1fae5;
+            border-color: var(--success-color);
+            color: #065f46;
+            font-weight: 600;
+        }
+
+        .option-label.correct-option::after {
+            content: "✓";
+            margin-right: auto;
+            font-weight: bold;
+            color: var(--success-color);
+        }
+
+        .option-label.wrong-option,
+        .option-label.wrong-option:hover {
+            background-color: #fee2e2;
+            border-color: var(--error-color);
+            color: #991b1b;
+        }
+
+        .option-label.wrong-option::after {
+            content: "✗";
+            margin-right: auto;
+            font-weight: bold;
+            color: var(--error-color);
+        }
+
         .feedback {
             margin-top: 15px;
             padding: 12px;
@@ -3498,13 +3532,25 @@
 
             currentQueue.shift();
 
+            // סימון התשובה הנכונה (ירוק) והבחירה השגויה (אדום) ישירות באפשרויות
+            document.querySelectorAll('input[name="quiz-option"]').forEach(input => {
+                const index = parseInt(input.value);
+                const label = input.closest(".option-label");
+                input.disabled = true;
+                label.classList.add("answered");
+                if (currentQuestion.answer.includes(index)) {
+                    label.classList.add("correct-option");
+                } else if (input.checked) {
+                    label.classList.add("wrong-option");
+                }
+            });
+
             if (isCorrect) {
                 feedbackEl.className = "feedback correct";
                 feedbackEl.innerText = "תשובה נכונה!";
             } else {
                 feedbackEl.className = "feedback incorrect";
-                const correctTexts = currentQuestion.answer.map(idx => currentQuestion.options[idx]).join(', ');
-                feedbackEl.innerText = `תשובה שגויה. התשובה הנכונה היא: ${correctTexts}. השאלה תחזור בהמשך`;
+                feedbackEl.innerText = "תשובה שגויה. התשובה הנכונה מסומנת בירוק. השאלה תחזור בהמשך";
                 currentQueue.push(currentQuestion);
             }
 
