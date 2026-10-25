@@ -540,6 +540,303 @@
             text-decoration: underline;
         }
 
+        .exam-btn {
+            margin: 0 0 12px;
+        }
+
+        /* מסך הגדרת מבחן */
+        .setup-section {
+            margin-bottom: 18px;
+        }
+
+        .setup-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-soft);
+            margin-bottom: 8px;
+        }
+
+        .setup-hint {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .chip {
+            width: auto;
+            min-height: 36px;
+            margin: 0;
+            padding: 6px 14px;
+            background: var(--pill-bg);
+            color: var(--pill-text);
+            border: 2px solid var(--pill-border);
+            border-radius: 50px;
+            font-size: 14px;
+            box-shadow: none;
+        }
+
+        .topic-checks {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .topic-check,
+        .switch-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+            padding: 8px 10px;
+            box-sizing: border-box;
+            background: var(--option-bg);
+            border: 2px solid var(--option-border);
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .topic-check:has(input:checked) {
+            border-color: var(--primary-color);
+        }
+
+        .topic-check input,
+        .switch-row input {
+            flex: none;
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            accent-color: #9333ea;
+        }
+
+        .topic-check span {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .topic-check small {
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .seg {
+            display: flex;
+            border: 2px solid var(--option-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .seg button {
+            flex: 1;
+            width: auto;
+            min-height: 44px;
+            margin: 0;
+            padding: 8px 6px;
+            border-radius: 0;
+            background: var(--option-bg);
+            color: var(--text-color);
+            font-size: 15px;
+            box-shadow: none;
+        }
+
+        .seg button + button {
+            border-right: 1px solid var(--option-border);
+        }
+
+        .seg button[aria-pressed="true"] {
+            background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+            color: #ffffff;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        /* טיימר במבחן */
+        .timer {
+            padding: 4px 12px;
+            border-radius: 50px;
+            background: var(--pill-bg);
+            border: 2px solid var(--pill-border);
+            color: var(--pill-text);
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer.low {
+            background: var(--error-bg);
+            border-color: var(--error-color);
+            color: var(--error-text);
+        }
+
+        /* תוצאות מבחן */
+        .score-big {
+            text-align: center;
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--accent-text);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .score-detail {
+            text-align: center;
+            margin: 6px 0 20px;
+            font-size: 15px;
+        }
+
+        .review-heading {
+            font-size: 16px;
+            color: var(--text-color);
+            margin: 8px 0 10px;
+        }
+
+        .review-empty {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        .review-card {
+            background: var(--option-bg);
+            border: 2px solid var(--option-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+        }
+
+        .review-card img {
+            display: block;
+            max-width: 100%;
+            margin: 0 auto 8px;
+            border-radius: 8px;
+        }
+
+        .review-topic {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-text);
+        }
+
+        .review-question {
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 4px 0 8px;
+            line-height: 1.5;
+        }
+
+        .review-card ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .review-card li {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: var(--text-soft);
+        }
+
+        .review-card li.correct {
+            background: var(--success-bg);
+            color: var(--success-text);
+            font-weight: 600;
+        }
+
+        .review-card li.correct::after {
+            content: " ✓";
+        }
+
+        .review-card li.wrong {
+            background: var(--error-bg);
+            color: var(--error-text);
+        }
+
+        .review-card li.wrong::after {
+            content: " ✗";
+        }
+
+        .secondary-btn {
+            background: var(--pill-bg);
+            color: var(--pill-text);
+            border: 2px solid var(--pill-border);
+            box-shadow: none;
+        }
+
+        /* היסטוריית מבחנים */
+        #exam-history {
+            margin-top: 24px;
+        }
+
+        .history-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 70px;
+            padding: 6px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            background: var(--option-bg);
+            direction: ltr; /* הישן משמאל, החדש מימין */
+        }
+
+        .history-bar {
+            flex: 1;
+            max-width: 22px;
+            border-radius: 4px 4px 0 0;
+            background: linear-gradient(180deg, #9333ea 0%, #db2777 100%);
+        }
+
+        .history-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        .history-list li {
+            display: flex;
+            gap: 8px;
+            align-items: baseline;
+            padding: 8px 2px;
+            border-bottom: 1px solid var(--option-border);
+        }
+
+        .history-date {
+            direction: ltr;
+            unicode-bidi: isolate;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .history-topics {
+            flex: 1;
+            min-width: 0;
+            color: var(--text-soft);
+        }
+
+        .history-score {
+            font-weight: 700;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+
         .theme-btn {
             width: auto;
             min-height: 40px;
@@ -578,6 +875,7 @@
         <div id="quiz-screen" class="hidden">
             <div class="quiz-header">
                 <div class="stats" id="queue-stats">שאלות בתור: 0</div>
+                <div class="timer hidden" id="exam-timer-pill"></div>
                 <div class="combo hidden" id="combo" aria-live="polite"></div>
                 <button class="back-oval-btn" id="header-back-btn">← נושאים</button>
             </div>
@@ -594,6 +892,44 @@
             <h2 style="margin-bottom: 10px;">כל הכבוד! 🎉</h2>
             <p id="finish-text" style="margin-bottom: 20px;">סיימת את כל השאלות בהצלחה.</p>
             <button id="back-btn">בחר נושא אחר</button>
+        </div>
+        <!-- מסך הגדרת מבחן -->
+        <div id="exam-setup-screen" class="hidden">
+            <div class="quiz-header">
+                <h2 style="margin: 0;">מבחן</h2>
+                <button class="back-oval-btn" id="exam-setup-back">← נושאים</button>
+            </div>
+            <div class="setup-section">
+                <div class="setup-label">נושאים</div>
+                <div class="chip-row" id="exam-groups"></div>
+                <div class="topic-checks" id="exam-topics"></div>
+            </div>
+            <div class="setup-section">
+                <div class="setup-label">מספר שאלות</div>
+                <div class="seg" id="exam-count" role="group" aria-label="מספר שאלות"></div>
+                <div class="setup-hint" id="exam-available"></div>
+            </div>
+            <div class="setup-section">
+                <label class="switch-row"><input type="checkbox" id="exam-timer"> <span id="exam-timer-label">טיימר</span></label>
+            </div>
+            <div class="setup-section">
+                <div class="setup-label">מתי לראות את התשובות הנכונות</div>
+                <div class="seg" id="exam-reveal" role="group" aria-label="מתי לראות את התשובות">
+                    <button type="button" data-value="end">בסוף המבחן</button>
+                    <button type="button" data-value="now">אחרי כל שאלה</button>
+                </div>
+            </div>
+            <button id="exam-start-btn">התחלת מבחן</button>
+            <div id="exam-history"></div>
+        </div>
+        <!-- מסך תוצאות מבחן -->
+        <div id="exam-result-screen" class="hidden">
+            <h2 style="margin-bottom: 6px;">תוצאות המבחן</h2>
+            <div class="score-big" id="exam-score"></div>
+            <p class="score-detail" id="exam-score-detail"></p>
+            <div id="exam-review"></div>
+            <button id="exam-again-btn">מבחן חדש</button>
+            <button id="exam-home-btn" class="secondary-btn">חזרה לנושאים</button>
         </div>
     </div>
     <button class="theme-btn" id="theme-btn" type="button"></button>
@@ -3840,24 +4176,46 @@
         // התקדמות שמורה בטלפון: לכל שאלה כמה פעמים ברצף נענתה נכון (s) והאם היא בטעויות (w)
         // המפתח הוא נושא + טקסט השאלה, כך שהוספת שאלות חדשות לא מבלבלת את ההתקדמות
         const PROGRESS_KEY = "kakatz-progress";
-        const MASTERED_STREAK = 2;
-        let progress = loadProgress();
+        const EXAMS_KEY = "kakatz-exams";
+        const EXAM_SETTINGS_KEY = "kakatz-exam-settings";
+        // שאלה נחשבת "נלמדה" ויוצאת מהטעויות אחרי תשובה נכונה אחת
+        const MASTERED_STREAK = 1;
+        let progress = loadJson(PROGRESS_KEY, {});
         let mistakesMode = false;
+        let exam = null;
         const questionTopic = new Map();
         for (const topic in database) {
             database[topic].forEach(q => questionTopic.set(q, topic));
         }
 
-        function loadProgress() {
+        const READINGS = Object.keys(database).filter(topic => topic.startsWith("מקראות"));
+        const EXAM_GROUPS = [
+            { label: "הכל", topics: Object.keys(database) },
+            { label: "כל המקראות", topics: READINGS },
+            { label: "מפה + טופוגרפיה", topics: ["מפה", "טופוגרפיה"] },
+            { label: "נקה", topics: [] }
+        ];
+        const EXAM_COUNTS = [10, 15, 25, 40];
+        let examSettings = Object.assign(
+            { topics: Object.keys(database), count: 25, timer: true, reveal: "end" },
+            loadJson(EXAM_SETTINGS_KEY, {})
+        );
+        examSettings.topics = examSettings.topics.filter(topic => topic in database);
+
+        function loadJson(key, fallback) {
             try {
-                return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+                return JSON.parse(localStorage.getItem(key)) || fallback;
             } catch (e) {
-                return {};
+                return fallback;
             }
         }
 
+        function saveJson(key, value) {
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+        }
+
         function saveProgress() {
-            try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress)); } catch (e) {}
+            saveJson(PROGRESS_KEY, progress);
         }
 
         function progressKey(q) {
@@ -3873,10 +4231,11 @@
         }
 
         function isMistake(q) {
-            return questionState(q).w;
+            const state = questionState(q);
+            return state.w && state.s < MASTERED_STREAK;
         }
 
-        // תשובה שגויה מאפסת את הרצף ומכניסה לטעויות; 2 נכונות ברצף מוציאות מהטעויות
+        // תשובה שגויה מאפסת את הרצף ומכניסה לטעויות; תשובה נכונה מוציאה מהטעויות
         function recordAnswer(q, correct) {
             const state = questionState(q);
             const streak = correct ? state.s + 1 : 0;
@@ -3898,19 +4257,22 @@
             loadTopics();
         }
 
+        const SCREENS = ["login-screen", "topics-screen", "quiz-screen", "finish-screen", "exam-setup-screen", "exam-result-screen"];
+
+        function showScreen(id) {
+            SCREENS.forEach(screen => document.getElementById(screen).classList.toggle("hidden", screen !== id));
+            window.scrollTo({ top: 0 });
+        }
+
         function showTopics() {
             loadTopics();
-            document.getElementById("quiz-screen").classList.add("hidden");
-            document.getElementById("finish-screen").classList.add("hidden");
-            document.getElementById("topics-screen").classList.remove("hidden");
+            showScreen("topics-screen");
         }
 
         function checkLogin() {
             const code = document.getElementById("passcode").value;
             if (code === CORRECT_CODE) {
-                document.getElementById("login-screen").classList.add("hidden");
-                loadTopics();
-                document.getElementById("topics-screen").classList.remove("hidden");
+                showTopics();
             } else {
                 document.getElementById("login-error").classList.remove("hidden");
             }
@@ -3919,6 +4281,12 @@
         function loadTopics() {
             const listContainer = document.getElementById("topics-list");
             listContainer.innerHTML = "";
+
+            const examBtn = document.createElement("button");
+            examBtn.className = "exam-btn";
+            examBtn.innerText = "📝 מבחן";
+            examBtn.onclick = showExamSetup;
+            listContainer.appendChild(examBtn);
 
             const mistakesCount = allMistakes().length;
             const mistakesBtn = document.createElement("button");
@@ -3960,58 +4328,50 @@
             beginQueue(shuffle([...database[topic]]));
         }
 
-        // תרגול הטעויות: כל השאלות שטעית בהן, מכל הנושאים, עד ששתיים נכונות ברצף מוציאות אותן
+        // תרגול הטעויות: כל השאלות שטעית בהן, מכל הנושאים, עד שעונים עליהן נכון
         function startMistakes() {
             mistakesMode = true;
             beginQueue(shuffle(allMistakes()));
         }
 
         function beginQueue(queue) {
+            exam = null;
             currentQueue = queue;
             combo = 0;
             updateCombo();
-            document.getElementById("topics-screen").classList.add("hidden");
-            document.getElementById("quiz-screen").classList.remove("hidden");
+            document.getElementById("exam-timer-pill").classList.add("hidden");
+            document.getElementById("header-back-btn").innerText = "← נושאים";
+            showScreen("quiz-screen");
             loadNextQuestion();
         }
 
-        function loadNextQuestion() {
-            if (currentQueue.length === 0) {
-                document.getElementById("finish-text").innerText = mistakesMode
-                    ? "ניקית את כל הטעויות 💪"
-                    : "סיימת את כל השאלות בהצלחה.";
-                document.getElementById("quiz-screen").classList.add("hidden");
-                document.getElementById("finish-screen").classList.remove("hidden");
-                return;
-            }
-
-            currentQuestion = currentQueue[0];
-            document.getElementById("queue-stats").innerText = `שאלות בתור: ${currentQueue.length}`;
-            // בתרגול הטעויות השאלות מגיעות מכל הנושאים, אז מציגים מאיזה נושא כל שאלה
-            document.getElementById("question-title").innerText = mistakesMode ? questionTopic.get(currentQuestion) : "";
-            document.getElementById("question-text").innerText = currentQuestion.text;
+        // הצגת שאלה: משותף לתרגול ולמבחן
+        function renderQuestion(q, title) {
+            currentQuestion = q;
+            document.getElementById("question-title").innerText = title;
+            document.getElementById("question-text").innerText = q.text;
 
             const imageEl = document.getElementById("question-image");
-            if (currentQuestion.image) {
-                imageEl.src = currentQuestion.image;
+            if (q.image) {
+                imageEl.src = q.image;
                 imageEl.classList.remove("hidden");
             } else {
                 imageEl.removeAttribute("src");
                 imageEl.classList.add("hidden");
             }
-            
+
             const optionsContainer = document.getElementById("options-container");
             optionsContainer.innerHTML = "";
 
-            const inputType = currentQuestion.type === "multi" ? "checkbox" : "radio";
+            const inputType = q.type === "multi" ? "checkbox" : "radio";
 
             // סדר התשובות מתערבב בכל פעם; value שומר את המיקום המקורי לבדיקה
-            optionOrder(currentQuestion.options).forEach(index => {
+            optionOrder(q.options).forEach(index => {
                 const label = document.createElement("label");
                 label.className = "option-label";
                 label.innerHTML = `
                     <input type="${inputType}" name="quiz-option" value="${index}">
-                    ${currentQuestion.options[index]}
+                    ${q.options[index]}
                 `;
                 optionsContainer.appendChild(label);
             });
@@ -4022,34 +4382,56 @@
             window.scrollTo({ top: 0 });
         }
 
-        function checkAnswer() {
-            const selectedInputs = document.querySelectorAll('input[name="quiz-option"]:checked');
-            if (selectedInputs.length === 0) {
-                alert("נא לבחור לפחות תשובה אחת");
+        function loadNextQuestion() {
+            if (currentQueue.length === 0) {
+                document.getElementById("finish-text").innerText = mistakesMode
+                    ? "ניקית את כל הטעויות 💪"
+                    : "סיימת את כל השאלות בהצלחה.";
+                showScreen("finish-screen");
                 return;
             }
 
-            const selectedValues = Array.from(selectedInputs).map(input => parseInt(input.value));
-            
-            const isCorrect = 
-                selectedValues.length === currentQuestion.answer.length &&
-                selectedValues.every(val => currentQuestion.answer.includes(val));
+            document.getElementById("queue-stats").innerText = `שאלות בתור: ${currentQueue.length}`;
+            document.getElementById("submit-btn").innerText = "בדוק תשובה";
+            // בתרגול הטעויות השאלות מגיעות מכל הנושאים, אז מציגים מאיזה נושא כל שאלה
+            renderQuestion(currentQueue[0], mistakesMode ? questionTopic.get(currentQueue[0]) : "");
+        }
 
-            currentQueue.shift();
+        function selectedValues() {
+            return Array.from(document.querySelectorAll('input[name="quiz-option"]:checked'))
+                .map(input => parseInt(input.value));
+        }
 
-            // סימון התשובה הנכונה (ירוק) והבחירה השגויה (אדום) ישירות באפשרויות
+        function isCorrectAnswer(q, selected) {
+            return selected.length === q.answer.length && selected.every(val => q.answer.includes(val));
+        }
+
+        // סימון התשובה הנכונה (ירוק) והבחירה השגויה (אדום) ישירות באפשרויות
+        function markOptions(q) {
             document.querySelectorAll('input[name="quiz-option"]').forEach(input => {
                 const index = parseInt(input.value);
                 const label = input.closest(".option-label");
                 input.disabled = true;
                 label.classList.add("answered");
-                if (currentQuestion.answer.includes(index)) {
+                if (q.answer.includes(index)) {
                     label.classList.add("correct-option");
                 } else if (input.checked) {
                     label.classList.add("wrong-option");
                 }
             });
+        }
 
+        function checkAnswer() {
+            const selected = selectedValues();
+            if (selected.length === 0) {
+                alert("נא לבחור לפחות תשובה אחת");
+                return;
+            }
+
+            const isCorrect = isCorrectAnswer(currentQuestion, selected);
+
+            currentQueue.shift();
+            markOptions(currentQuestion);
             recordAnswer(currentQuestion, isCorrect);
 
             // שאלה שנענתה לא נכון חוזרת בהמשך; בתרגול הטעויות היא חוזרת עד שהיא יוצאת מהטעויות
@@ -4061,17 +4443,285 @@
             updateCombo();
 
             document.getElementById("submit-btn").classList.add("hidden");
+            document.getElementById("next-btn").innerText = "השאלה הבאה";
             document.getElementById("next-btn").classList.remove("hidden");
+        }
+
+        // ---------- מבחן ----------
+
+        function saveExamSettings() {
+            saveJson(EXAM_SETTINGS_KEY, examSettings);
+        }
+
+        function examPoolSize() {
+            return examSettings.topics.reduce((sum, topic) => sum + database[topic].length, 0);
+        }
+
+        function topicsLabel(topics) {
+            if (topics.length === Object.keys(database).length) return "כל הנושאים";
+            if (topics.length === READINGS.length && READINGS.every(t => topics.includes(t))) return "כל המקראות";
+            if (topics.length <= 2) return topics.join(" + ");
+            return `${topics.length} נושאים`;
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m}:${String(s).padStart(2, "0")}`;
+        }
+
+        function showExamSetup() {
+            const topicsEl = document.getElementById("exam-topics");
+            topicsEl.innerHTML = "";
+            for (const topic in database) {
+                const label = document.createElement("label");
+                label.className = "topic-check";
+                label.innerHTML = `<input type="checkbox" value="${topic}"> <span>${topic}</span> <small>${database[topic].length}</small>`;
+                const box = label.querySelector("input");
+                box.checked = examSettings.topics.includes(topic);
+                box.onchange = () => {
+                    examSettings.topics = Object.keys(database).filter(t =>
+                        topicsEl.querySelector(`input[value="${t}"]`).checked);
+                    updateExamSetup();
+                };
+                topicsEl.appendChild(label);
+            }
+
+            const groupsEl = document.getElementById("exam-groups");
+            groupsEl.innerHTML = "";
+            EXAM_GROUPS.forEach(group => {
+                const chip = document.createElement("button");
+                chip.type = "button";
+                chip.className = "chip";
+                chip.innerText = group.label;
+                chip.onclick = () => {
+                    examSettings.topics = group.topics.slice();
+                    topicsEl.querySelectorAll("input").forEach(box => {
+                        box.checked = examSettings.topics.includes(box.value);
+                    });
+                    updateExamSetup();
+                };
+                groupsEl.appendChild(chip);
+            });
+
+            const countEl = document.getElementById("exam-count");
+            countEl.innerHTML = "";
+            EXAM_COUNTS.forEach(n => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.innerText = n;
+                btn.dataset.value = n;
+                btn.onclick = () => {
+                    examSettings.count = n;
+                    updateExamSetup();
+                };
+                countEl.appendChild(btn);
+            });
+
+            document.getElementById("exam-timer").checked = examSettings.timer;
+            renderExamHistory();
+            updateExamSetup();
+            showScreen("exam-setup-screen");
+        }
+
+        function updateExamSetup() {
+            const available = examPoolSize();
+            const count = Math.min(examSettings.count, available);
+            document.querySelectorAll("#exam-count button").forEach(btn =>
+                btn.setAttribute("aria-pressed", String(Number(btn.dataset.value) === examSettings.count)));
+            document.querySelectorAll("#exam-reveal button").forEach(btn =>
+                btn.setAttribute("aria-pressed", String(btn.dataset.value === examSettings.reveal)));
+            document.getElementById("exam-available").innerText = available === 0
+                ? "יש לבחור לפחות נושא אחד"
+                : available < examSettings.count
+                    ? `בנושאים שנבחרו יש רק ${available} שאלות, כולן ייכנסו למבחן`
+                    : `${available} שאלות בנושאים שנבחרו`;
+            document.getElementById("exam-timer-label").innerText = `טיימר: ${count} דקות (דקה לשאלה)`;
+            const startBtn = document.getElementById("exam-start-btn");
+            startBtn.disabled = available === 0;
+            startBtn.innerText = available === 0 ? "התחלת מבחן" : `התחלת מבחן (${count} שאלות)`;
+            saveExamSettings();
+        }
+
+        function startExam() {
+            const pool = shuffle(examSettings.topics.flatMap(topic => [...database[topic]]));
+            if (pool.length === 0) return;
+            const questions = pool.slice(0, Math.min(examSettings.count, pool.length));
+            exam = {
+                questions,
+                index: 0,
+                answers: [],
+                reveal: examSettings.reveal,
+                topics: examSettings.topics.slice(),
+                startedAt: Date.now(),
+                deadline: examSettings.timer ? Date.now() + questions.length * 60000 : null,
+                timerId: null
+            };
+            mistakesMode = false;
+            combo = 0;
+            updateCombo();
+            document.getElementById("header-back-btn").innerText = "← יציאה";
+            const timerPill = document.getElementById("exam-timer-pill");
+            timerPill.classList.toggle("hidden", !exam.deadline);
+            if (exam.deadline) {
+                updateExamTimer();
+                exam.timerId = setInterval(updateExamTimer, 1000);
+            }
+            showScreen("quiz-screen");
+            showExamQuestion();
+        }
+
+        // כשהזמן נגמר המבחן מוגש אוטומטית; שאלות שלא נענו נספרות כשגויות
+        function updateExamTimer() {
+            const left = Math.max(0, Math.round((exam.deadline - Date.now()) / 1000));
+            const timerPill = document.getElementById("exam-timer-pill");
+            timerPill.innerText = `⏱ ${formatTime(left)}`;
+            timerPill.classList.toggle("low", left <= 60);
+            if (left === 0) finishExam(true);
+        }
+
+        function showExamQuestion() {
+            const isLast = exam.index === exam.questions.length - 1;
+            document.getElementById("queue-stats").innerText = `שאלה ${exam.index + 1} מתוך ${exam.questions.length}`;
+            document.getElementById("submit-btn").innerText = exam.reveal === "now"
+                ? "בדוק תשובה"
+                : isLast ? "הגשת המבחן" : "לשאלה הבאה";
+            renderQuestion(exam.questions[exam.index], "");
+        }
+
+        function examSubmit() {
+            const selected = selectedValues();
+            if (selected.length === 0) {
+                alert("נא לבחור לפחות תשובה אחת");
+                return;
+            }
+            const q = exam.questions[exam.index];
+            const isCorrect = isCorrectAnswer(q, selected);
+            exam.answers[exam.index] = selected;
+            recordAnswer(q, isCorrect);
+
+            if (exam.reveal === "now") {
+                markOptions(q);
+                combo = isCorrect ? combo + 1 : 0;
+                updateCombo();
+                document.getElementById("submit-btn").classList.add("hidden");
+                const nextBtn = document.getElementById("next-btn");
+                nextBtn.innerText = exam.index === exam.questions.length - 1 ? "לתוצאות" : "השאלה הבאה";
+                nextBtn.classList.remove("hidden");
+            } else {
+                examNext();
+            }
+        }
+
+        function examNext() {
+            exam.index++;
+            if (exam.index >= exam.questions.length) {
+                finishExam(false);
+            } else {
+                showExamQuestion();
+            }
+        }
+
+        function leaveExam() {
+            if (!confirm("לצאת מהמבחן? הוא לא יישמר בהיסטוריה")) return;
+            clearInterval(exam.timerId);
+            exam = null;
+            showTopics();
+        }
+
+        function finishExam(timeUp) {
+            clearInterval(exam.timerId);
+            const total = exam.questions.length;
+            const correct = exam.questions.filter((q, i) => exam.answers[i] && isCorrectAnswer(q, exam.answers[i])).length;
+            const percent = Math.round((correct / total) * 100);
+            const seconds = Math.round((Date.now() - exam.startedAt) / 1000);
+
+            const history = loadJson(EXAMS_KEY, []);
+            history.push({ d: Date.now(), t: exam.topics, n: total, c: correct, sec: seconds });
+            saveJson(EXAMS_KEY, history.slice(-50));
+
+            document.getElementById("exam-score").innerText = `${correct}/${total}`;
+            document.getElementById("exam-score-detail").innerText =
+                `${percent}% · ${topicsLabel(exam.topics)} · ${formatTime(seconds)} דקות` + (timeUp ? " · הזמן נגמר" : "");
+
+            const review = document.getElementById("exam-review");
+            review.innerHTML = "";
+            const mistakes = exam.questions
+                .map((q, i) => ({ q, picked: exam.answers[i] }))
+                .filter(item => !item.picked || !isCorrectAnswer(item.q, item.picked));
+            if (mistakes.length === 0) {
+                review.innerHTML = `<p class="review-empty">בלי טעויות! 🎉</p>`;
+            } else {
+                const heading = document.createElement("h3");
+                heading.className = "review-heading";
+                heading.innerText = `טעויות (${mistakes.length})`;
+                review.appendChild(heading);
+                mistakes.forEach(({ q, picked }) => {
+                    const card = document.createElement("div");
+                    card.className = "review-card";
+                    const options = q.options.map((opt, i) => {
+                        const cls = q.answer.includes(i) ? "correct" : picked && picked.includes(i) ? "wrong" : "";
+                        return `<li class="${cls}">${opt}</li>`;
+                    }).join("");
+                    card.innerHTML = `
+                        <div class="review-topic">${questionTopic.get(q)}${picked ? "" : " · לא נענתה"}</div>
+                        <p class="review-question"></p>
+                        ${q.image ? `<img src="${q.image}" alt="">` : ""}
+                        <ul>${options}</ul>
+                    `;
+                    card.querySelector(".review-question").innerText = q.text;
+                    review.appendChild(card);
+                });
+            }
+
+            exam = null;
+            showScreen("exam-result-screen");
+        }
+
+        function renderExamHistory() {
+            const history = loadJson(EXAMS_KEY, []);
+            const box = document.getElementById("exam-history");
+            if (history.length === 0) {
+                box.innerHTML = "";
+                return;
+            }
+            const recent = history.slice(-15);
+            const bars = recent.map(e => {
+                const p = Math.round((e.c / e.n) * 100);
+                return `<span class="history-bar" style="height: ${Math.max(p, 4)}%" title="${p}%"></span>`;
+            }).join("");
+            const rows = history.slice(-10).reverse().map(e => {
+                const when = new Date(e.d);
+                const date = `${when.getDate()}.${when.getMonth() + 1} ${String(when.getHours()).padStart(2, "0")}:${String(when.getMinutes()).padStart(2, "0")}`;
+                return `<li><span class="history-date">${date}</span><span class="history-topics">${topicsLabel(e.t)}</span><span class="history-score">${e.c}/${e.n} · ${Math.round((e.c / e.n) * 100)}%</span></li>`;
+            }).join("");
+            box.innerHTML = `
+                <h3 class="review-heading">המבחנים האחרונים</h3>
+                <div class="history-chart" aria-label="ציונים במבחנים האחרונים, מהישן לחדש">${bars}</div>
+                <ul class="history-list">${rows}</ul>
+            `;
         }
 
         document.getElementById("login-btn").addEventListener("click", checkLogin);
         document.getElementById("passcode").addEventListener("keypress", function(e) {
             if (e.key === 'Enter') checkLogin();
         });
-        document.getElementById("submit-btn").addEventListener("click", checkAnswer);
-        document.getElementById("next-btn").addEventListener("click", loadNextQuestion);
+        document.getElementById("submit-btn").addEventListener("click", () => exam ? examSubmit() : checkAnswer());
+        document.getElementById("next-btn").addEventListener("click", () => exam ? examNext() : loadNextQuestion());
         document.getElementById("back-btn").addEventListener("click", showTopics);
-        document.getElementById("header-back-btn").addEventListener("click", showTopics);
+        document.getElementById("header-back-btn").addEventListener("click", () => exam ? leaveExam() : showTopics());
+        document.getElementById("exam-setup-back").addEventListener("click", showTopics);
+        document.getElementById("exam-start-btn").addEventListener("click", startExam);
+        document.getElementById("exam-timer").addEventListener("change", e => {
+            examSettings.timer = e.target.checked;
+            updateExamSetup();
+        });
+        document.querySelectorAll("#exam-reveal button").forEach(btn => btn.addEventListener("click", () => {
+            examSettings.reveal = btn.dataset.value;
+            updateExamSetup();
+        }));
+        document.getElementById("exam-again-btn").addEventListener("click", showExamSetup);
+        document.getElementById("exam-home-btn").addEventListener("click", showTopics);
         document.getElementById("theme-btn").addEventListener("click", toggleTheme);
         window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateThemeButton);
         updateThemeButton();
