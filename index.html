@@ -1664,7 +1664,7 @@
                     text: "היכן נמצאת העיר רהט?",
                     type: "single",
                     options: ["מדבר יהודה", "מישור החוף", "נגב", "הרי יהודה"],
-                    answer: [2]
+                    answer: [1]
                 },
                 {
                     id: 17,
@@ -1720,7 +1720,7 @@
                     text: "מהי העיר המערבית ביותר מבין הערים הבאות?",
                     type: "single",
                     options: ["ירושלים", "מצפה רמון", "ערד", "רהט"],
-                    answer: [2]
+                    answer: [3]
                 },
                 {
                     id: 25,
@@ -3527,9 +3527,6 @@
                 selectedValues.length === currentQuestion.answer.length &&
                 selectedValues.every(val => currentQuestion.answer.includes(val));
 
-            const feedbackEl = document.getElementById("feedback");
-            feedbackEl.classList.remove("hidden");
-
             currentQueue.shift();
 
             // סימון התשובה הנכונה (ירוק) והבחירה השגויה (אדום) ישירות באפשרויות
@@ -3545,12 +3542,8 @@
                 }
             });
 
-            if (isCorrect) {
-                feedbackEl.className = "feedback correct";
-                feedbackEl.innerText = "תשובה נכונה!";
-            } else {
-                feedbackEl.className = "feedback incorrect";
-                feedbackEl.innerText = "תשובה שגויה. התשובה הנכונה מסומנת בירוק. השאלה תחזור בהמשך";
+            // שאלה שנענתה לא נכון חוזרת בהמשך
+            if (!isCorrect) {
                 currentQueue.push(currentQuestion);
             }
 
