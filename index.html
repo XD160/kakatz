@@ -385,8 +385,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
+            flex-wrap: wrap;
+            gap: 10px 8px;
             margin-bottom: 18px;
+        }
+
+        /* טיימר ומונה הרצף בשורה משלהם, כדי שהכותרת לא תחרוג מהמסך בטלפון צר */
+        .header-pills {
+            flex-basis: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header-pills:not(:has(> :not(.hidden))) {
+            display: none;
         }
 
         .question-text {
@@ -875,9 +888,11 @@
         <div id="quiz-screen" class="hidden">
             <div class="quiz-header">
                 <div class="stats" id="queue-stats">שאלות בתור: 0</div>
-                <div class="timer hidden" id="exam-timer-pill"></div>
-                <div class="combo hidden" id="combo" aria-live="polite"></div>
                 <button class="back-oval-btn" id="header-back-btn">← נושאים</button>
+                <div class="header-pills">
+                    <div class="timer hidden" id="exam-timer-pill"></div>
+                    <div class="combo hidden" id="combo" aria-live="polite"></div>
+                </div>
             </div>
             <h3 id="question-title" style="color: var(--accent-text); margin-top: 0;"></h3>
             <p id="question-text" class="question-text"></p>
