@@ -49,6 +49,8 @@
             --combo-bg: #fff7ed;
             --combo-border: #fdba74;
             --combo-text: #c2410c;
+            --bar-track: rgba(255, 255, 255, 0.6);
+            --bar-fill: #7c3aed;
             color-scheme: light;
         }
 
@@ -86,6 +88,8 @@
                 --combo-bg: #3a2413;
                 --combo-border: #9a4a1c;
                 --combo-text: #fdba74;
+                --bar-track: rgba(255, 255, 255, 0.14);
+                --bar-fill: #d8b4fe;
                 color-scheme: dark;
             }
         }
@@ -122,6 +126,8 @@
             --combo-bg: #3a2413;
             --combo-border: #9a4a1c;
             --combo-text: #fdba74;
+            --bar-track: rgba(255, 255, 255, 0.14);
+            --bar-fill: #d8b4fe;
             color-scheme: dark;
         }
 
@@ -464,6 +470,76 @@
             .combo-burst { animation-duration: 2.2s; }
         }
 
+        /* פס התקדמות בתוך כפתור הנושא */
+        .topic-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .topic-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .topic-progress .bar {
+            flex: 1;
+            height: 8px;
+            border-radius: 8px;
+            background: var(--bar-track);
+            overflow: hidden;
+        }
+
+        .topic-progress .bar i {
+            display: block;
+            height: 100%;
+            border-radius: 8px;
+            background: var(--bar-fill);
+            transition: width 0.4s ease;
+        }
+
+        .topic-btn.complete .bar i {
+            background: var(--success-color);
+        }
+
+        .topic-progress .count {
+            min-width: 48px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .mistakes-btn {
+            background: var(--combo-bg);
+            color: var(--combo-text);
+            border: 2px solid var(--combo-border);
+            box-shadow: none;
+            margin: 0 0 16px;
+        }
+
+        .mistakes-btn:disabled {
+            opacity: 0.6;
+            cursor: default;
+            transform: none;
+        }
+
+        .reset-btn {
+            width: auto;
+            min-height: 40px;
+            display: block;
+            margin: 6px auto 0;
+            padding: 8px 12px;
+            background: none;
+            color: var(--text-muted);
+            box-shadow: none;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
         .theme-btn {
             width: auto;
             min-height: 40px;
@@ -516,7 +592,7 @@
         <!-- מסך סיום -->
         <div id="finish-screen" class="hidden" style="text-align: center;">
             <h2 style="margin-bottom: 10px;">כל הכבוד! 🎉</h2>
-            <p style="margin-bottom: 20px;">סיימת את כל השאלות בהצלחה.</p>
+            <p id="finish-text" style="margin-bottom: 20px;">סיימת את כל השאלות בהצלחה.</p>
             <button id="back-btn">בחר נושא אחר</button>
         </div>
     </div>
@@ -3761,6 +3837,74 @@
             updateThemeButton();
         }
 
+        // התקדמות שמורה בטלפון: לכל שאלה כמה פעמים ברצף נענתה נכון (s) והאם היא בטעויות (w)
+        // המפתח הוא נושא + טקסט השאלה, כך שהוספת שאלות חדשות לא מבלבלת את ההתקדמות
+        const PROGRESS_KEY = "kakatz-progress";
+        const MASTERED_STREAK = 2;
+        let progress = loadProgress();
+        let mistakesMode = false;
+        const questionTopic = new Map();
+        for (const topic in database) {
+            database[topic].forEach(q => questionTopic.set(q, topic));
+        }
+
+        function loadProgress() {
+            try {
+                return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveProgress() {
+            try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress)); } catch (e) {}
+        }
+
+        function progressKey(q) {
+            return `${questionTopic.get(q)}|${q.text}`;
+        }
+
+        function questionState(q) {
+            return progress[progressKey(q)] || { s: 0, w: false };
+        }
+
+        function isMastered(q) {
+            return questionState(q).s >= MASTERED_STREAK;
+        }
+
+        function isMistake(q) {
+            return questionState(q).w;
+        }
+
+        // תשובה שגויה מאפסת את הרצף ומכניסה לטעויות; 2 נכונות ברצף מוציאות מהטעויות
+        function recordAnswer(q, correct) {
+            const state = questionState(q);
+            const streak = correct ? state.s + 1 : 0;
+            progress[progressKey(q)] = {
+                s: streak,
+                w: correct ? state.w && streak < MASTERED_STREAK : true
+            };
+            saveProgress();
+        }
+
+        function allMistakes() {
+            return Object.values(database).flat().filter(isMistake);
+        }
+
+        function resetProgress() {
+            if (!confirm("למחוק את כל ההתקדמות השמורה בטלפון הזה?")) return;
+            progress = {};
+            saveProgress();
+            loadTopics();
+        }
+
+        function showTopics() {
+            loadTopics();
+            document.getElementById("quiz-screen").classList.add("hidden");
+            document.getElementById("finish-screen").classList.add("hidden");
+            document.getElementById("topics-screen").classList.remove("hidden");
+        }
+
         function checkLogin() {
             const code = document.getElementById("passcode").value;
             if (code === CORRECT_CODE) {
@@ -3776,17 +3920,54 @@
             const listContainer = document.getElementById("topics-list");
             listContainer.innerHTML = "";
 
+            const mistakesCount = allMistakes().length;
+            const mistakesBtn = document.createElement("button");
+            mistakesBtn.className = "mistakes-btn";
+            mistakesBtn.disabled = mistakesCount === 0;
+            mistakesBtn.innerText = mistakesCount
+                ? `🎯 תרגול הטעויות שלי (${mistakesCount})`
+                : "🎯 אין טעויות לתרגל כרגע";
+            mistakesBtn.onclick = startMistakes;
+            listContainer.appendChild(mistakesBtn);
+
             for (const topic in database) {
+                const total = database[topic].length;
+                const mastered = database[topic].filter(isMastered).length;
+                const percent = Math.round((mastered / total) * 100);
                 const btn = document.createElement("button");
-                btn.className = "topic-btn";
-                btn.innerText = `תרגל נושא: ${topic}`;
+                btn.className = "topic-btn" + (mastered === total ? " complete" : "");
+                btn.innerHTML = `
+                    <span>תרגל נושא: ${topic}</span>
+                    <span class="topic-progress">
+                        <span class="bar"><i style="width: ${percent}%"></i></span>
+                        <span class="count">${mastered === total ? "✔ " : ""}${mastered}/${total}</span>
+                    </span>
+                `;
+                btn.setAttribute("aria-label", `תרגל נושא: ${topic}, נלמדו ${mastered} מתוך ${total}`);
                 btn.onclick = () => startQuiz(topic);
                 listContainer.appendChild(btn);
             }
+
+            const resetBtn = document.createElement("button");
+            resetBtn.className = "reset-btn";
+            resetBtn.innerText = "איפוס ההתקדמות";
+            resetBtn.onclick = resetProgress;
+            listContainer.appendChild(resetBtn);
         }
 
         function startQuiz(topic) {
-            currentQueue = shuffle([...database[topic]]);
+            mistakesMode = false;
+            beginQueue(shuffle([...database[topic]]));
+        }
+
+        // תרגול הטעויות: כל השאלות שטעית בהן, מכל הנושאים, עד ששתיים נכונות ברצף מוציאות אותן
+        function startMistakes() {
+            mistakesMode = true;
+            beginQueue(shuffle(allMistakes()));
+        }
+
+        function beginQueue(queue) {
+            currentQueue = queue;
             combo = 0;
             updateCombo();
             document.getElementById("topics-screen").classList.add("hidden");
@@ -3796,6 +3977,9 @@
 
         function loadNextQuestion() {
             if (currentQueue.length === 0) {
+                document.getElementById("finish-text").innerText = mistakesMode
+                    ? "ניקית את כל הטעויות 💪"
+                    : "סיימת את כל השאלות בהצלחה.";
                 document.getElementById("quiz-screen").classList.add("hidden");
                 document.getElementById("finish-screen").classList.remove("hidden");
                 return;
@@ -3803,6 +3987,8 @@
 
             currentQuestion = currentQueue[0];
             document.getElementById("queue-stats").innerText = `שאלות בתור: ${currentQueue.length}`;
+            // בתרגול הטעויות השאלות מגיעות מכל הנושאים, אז מציגים מאיזה נושא כל שאלה
+            document.getElementById("question-title").innerText = mistakesMode ? questionTopic.get(currentQuestion) : "";
             document.getElementById("question-text").innerText = currentQuestion.text;
 
             const imageEl = document.getElementById("question-image");
@@ -3864,8 +4050,10 @@
                 }
             });
 
-            // שאלה שנענתה לא נכון חוזרת בהמשך
-            if (!isCorrect) {
+            recordAnswer(currentQuestion, isCorrect);
+
+            // שאלה שנענתה לא נכון חוזרת בהמשך; בתרגול הטעויות היא חוזרת עד שהיא יוצאת מהטעויות
+            if (!isCorrect || (mistakesMode && isMistake(currentQuestion))) {
                 currentQueue.push(currentQuestion);
             }
 
@@ -3882,14 +4070,8 @@
         });
         document.getElementById("submit-btn").addEventListener("click", checkAnswer);
         document.getElementById("next-btn").addEventListener("click", loadNextQuestion);
-        document.getElementById("back-btn").addEventListener("click", function() {
-            document.getElementById("finish-screen").classList.add("hidden");
-            document.getElementById("topics-screen").classList.remove("hidden");
-        });
-        document.getElementById("header-back-btn").addEventListener("click", function() {
-            document.getElementById("quiz-screen").classList.add("hidden");
-            document.getElementById("topics-screen").classList.remove("hidden");
-        });
+        document.getElementById("back-btn").addEventListener("click", showTopics);
+        document.getElementById("header-back-btn").addEventListener("click", showTopics);
         document.getElementById("theme-btn").addEventListener("click", toggleTheme);
         window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", updateThemeButton);
         updateThemeButton();
